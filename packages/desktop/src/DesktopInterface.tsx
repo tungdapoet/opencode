@@ -1,6 +1,4 @@
-/* @refresh reload */
 import "@/index.css"
-import { render } from "solid-js/web"
 import { Router, Route, Navigate } from "@solidjs/router"
 import { MetaProvider } from "@solidjs/meta"
 import { Font } from "@opencode-ai/ui/font"
@@ -15,7 +13,7 @@ import Session from "@/pages/session"
 import { LayoutProvider } from "./context/layout"
 import { GlobalSDKProvider } from "./context/global-sdk"
 import { SessionProvider } from "./context/session"
-import { base64Encode } from "./utils"
+import { base64Encode } from "@opencode-ai/util/encode"
 import { createMemo, Show } from "solid-js"
 
 const host = import.meta.env.VITE_OPENCODE_SERVER_HOST ?? "127.0.0.1"
@@ -27,15 +25,8 @@ const url =
     ? `http://${host}:${port}`
     : "/")
 
-const root = document.getElementById("root")
-if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
-  throw new Error(
-    "Root element not found. Did you forget to add it to your index.html? Or maybe the id attribute got misspelled?",
-  )
-}
-
-render(
-  () => (
+export function DesktopInterface() {
+  return (
     <MarkedProvider>
       <DiffComponentProvider component={Diff}>
         <GlobalSDKProvider url={url}>
@@ -72,6 +63,5 @@ render(
         </GlobalSDKProvider>
       </DiffComponentProvider>
     </MarkedProvider>
-  ),
-  root!,
-)
+  )
+}
